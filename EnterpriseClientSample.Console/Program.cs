@@ -12,12 +12,12 @@ namespace EnterpriseClientSample.Console
         /// <summary>
         /// The OAuth client identifier
         /// </summary>
-        private static string ClientID = "zg6kTVN4BZMqTTHycsMdCbx000ELKlliV9SNYwoKOCI=";
+        private static string ClientID = "hack001";
 
         /// <summary>
         /// The OAuth client secret
         /// </summary>
-        private static string ClientSecret = "1rRqzCYx498Y7KDA6Z+xcGZ37z5Fb3WP6+KBMfwlndE=";
+        private static string ClientSecret = "hack001";
 
         /// <summary>
         /// The OAuth scope
@@ -27,12 +27,12 @@ namespace EnterpriseClientSample.Console
         /// <summary>
         /// The identity server token endpoint URI
         /// </summary>
-        private static string TokenEndpointUri = "https://api-model.softheon.com/identity/core/connect/token";
+        private static string TokenEndpointUri = "https://hack.softheon.io/api/identity/core/connect/token";
 
         /// <summary>
         /// The enterprise REST API endpoint URI
         /// </summary>
-        private static string EnterpriseEndpointUri = "http://localhost/enterprise";
+        private static string EnterpriseEndpointUri = "https://hack.softheon.io/api/enterprise";
 
         /// <summary>
         /// The template type
@@ -42,12 +42,12 @@ namespace EnterpriseClientSample.Console
         /// <summary>
         /// The drawer identifier
         /// </summary>
-        private static int DrawerID = 2;
+        private static int DrawerID = 1;
 
         /// <summary>
         /// Whether or not the applicaiton cleans up after it self
         /// </summary>
-        private static bool ShouldCleanup = false;
+        private static bool ShouldCleanup = true;
 
         /// <summary>
         /// The entrpy point of the application
@@ -277,7 +277,7 @@ namespace EnterpriseClientSample.Console
                         }
                     }
                   },
-                Drawers = new [] { 1, 2, 3 }
+                Drawers = new [] { 1 }
             };
 
             // Execute REST call
