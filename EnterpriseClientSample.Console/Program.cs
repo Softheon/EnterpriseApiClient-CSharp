@@ -64,16 +64,16 @@ namespace EnterpriseClientSample.Console
             InsertTemplate(token, TemplateType);
             GetTemplate(token, TemplateType);
 
-            // Demonstrate inserting, updating and fetching folders
-            var folderID = InsertFolder(token, DrawerID, TemplateType);
-            GetFolder(token, DrawerID, folderID);
-            UpdateFolder(token, DrawerID, folderID);
-            GetFolder(token, DrawerID, folderID);
+            // Demonstrate inserting, updating and fetching entitys
+            var entityID = InsertEntity(token, DrawerID, TemplateType);
+            GetEntity(token, DrawerID, entityID);
+            UpdateEntity(token, DrawerID, entityID);
+            GetEntity(token, DrawerID, entityID);
 
-            // Demonstrate deleting folders and templates
+            // Demonstrate deleting entitys and templates
             if (ShouldCleanup)
             {
-                DeleteFolder(token, DrawerID, folderID);
+                DeleteEntity(token, DrawerID, entityID);
                 DeleteTemplate(token, TemplateType);
             }
 
@@ -92,7 +92,7 @@ namespace EnterpriseClientSample.Console
         private static void InsertTemplate(string token, int type)
         {
             System.Console.WriteLine("=== Insert Template ===");
-            var templateClient = new FolderTemplateClient(EnterpriseEndpointUri);
+            var templateClient = new EntityTemplateClient(EnterpriseEndpointUri);
 
             // Create request object
             var template = new
@@ -306,7 +306,7 @@ namespace EnterpriseClientSample.Console
             System.Console.WriteLine("=== Get Template ===");
 
             // Execute REST call
-            var templateClient = new FolderTemplateClient(EnterpriseEndpointUri);
+            var templateClient = new EntityTemplateClient(EnterpriseEndpointUri);
             var response = templateClient.Get(token, TemplateType);
             System.Console.WriteLine("Result: {0}", response.StatusCode);
 
@@ -349,7 +349,7 @@ namespace EnterpriseClientSample.Console
         private static void DeleteTemplate(string token, int type)
         {
             System.Console.WriteLine("=== Delete Template ===");
-            var templateClient = new FolderTemplateClient(EnterpriseEndpointUri);
+            var templateClient = new EntityTemplateClient(EnterpriseEndpointUri);
             var response = templateClient.Delete(token, type);
 
             System.Console.WriteLine("Result: {0}", response.StatusCode);
@@ -358,21 +358,21 @@ namespace EnterpriseClientSample.Console
 
         #endregion Templates
 
-        #region Folders
+        #region Entitys
 
         /// <summary>
-        /// Inserts the folder.
+        /// Inserts the entity.
         /// </summary>
         /// <param name="token">The OAuth token.</param>
         /// <param name="drawer">The drawer identifier.</param>
         /// <param name="type">The template type.</param>
-        private static int InsertFolder(string token, int drawer, int type)
+        private static int InsertEntity(string token, int drawer, int type)
         {
-            System.Console.WriteLine("=== Insert Folder ===");
-            var folderClient = new FolderClient(EnterpriseEndpointUri);
+            System.Console.WriteLine("=== Insert Entity ===");
+            var entityClient = new EntityClient(EnterpriseEndpointUri);
 
             // Create request object
-            var folder = new
+            var entity = new
             {
                 Acl = -1,
                 Type = type,
@@ -419,7 +419,7 @@ namespace EnterpriseClientSample.Console
             };
 
             // Execute REST call
-            var response = folderClient.Insert(token, drawer, JsonConvert.SerializeObject(folder));
+            var response = entityClient.Insert(token, drawer, JsonConvert.SerializeObject(entity));
             System.Console.WriteLine("Result: {0}", response.StatusCode);
 
             if (response.StatusCode != HttpStatusCode.Created)
@@ -429,25 +429,25 @@ namespace EnterpriseClientSample.Console
             }
 
             // Display results
-            dynamic folderResult = JsonConvert.DeserializeObject(response.Content);
-            System.Console.WriteLine("ID: {0}", folderResult.FolderID.Value);
+            dynamic entityResult = JsonConvert.DeserializeObject(response.Content);
+            System.Console.WriteLine("ID: {0}", entityResult.ID.Value);
             System.Console.WriteLine();
-            return (int)folderResult.FolderID.Value;
+            return (int)entityResult.ID.Value;
         }
 
         /// <summary>
-        /// Gets the folder.
+        /// Gets the entity.
         /// </summary>
         /// <param name="token">The OAuth token.</param>
         /// <param name="drawerID">The drawer identifier.</param>
-        /// <param name="folderID">The folder identifier.</param>
-        private static void GetFolder(string token, int drawerID, int folderID)
+        /// <param name="entityID">The entity identifier.</param>
+        private static void GetEntity(string token, int drawerID, int entityID)
         {
-            System.Console.WriteLine("=== Get Folder ===");
+            System.Console.WriteLine("=== Get Entity ===");
 
             // Execute REST call
-            var folderClient = new FolderClient(EnterpriseEndpointUri);
-            var response = folderClient.Get(token, drawerID, folderID);
+            var entityClient = new EntityClient(EnterpriseEndpointUri);
+            var response = entityClient.Get(token, drawerID, entityID);
 
             System.Console.WriteLine("Result: {0}", response.StatusCode);
 
@@ -458,12 +458,12 @@ namespace EnterpriseClientSample.Console
             }
 
             // Display Results
-            dynamic folderResult = JsonConvert.DeserializeObject(response.Content);
-            System.Console.WriteLine("Folder: {0} [{1}]", folderResult.Name.Value, folderResult.FolderID.Value);
+            dynamic entityResult = JsonConvert.DeserializeObject(response.Content);
+            System.Console.WriteLine("Entity: {0} [{1}]", entityResult.Name.Value, entityResult.ID.Value);
             
-            foreach (var profile in folderResult.Profiles)
+            foreach (var profile in entityResult.Profiles)
             {
-                System.Console.WriteLine("{2}Profile: {0} [{1}]", profile.ProfileID.Value, profile.Type.Value, string.Empty.PadLeft(4));
+                System.Console.WriteLine("{2}Profile: {0} [{1}]", profile.ID.Value, profile.Type.Value, string.Empty.PadLeft(4));
                 for (int i = 0; i < profile.Strings.Count; i++) 
                 {
                     if (profile.Strings[i] != null & profile.Strings[i].Value != null)
@@ -498,18 +498,18 @@ namespace EnterpriseClientSample.Console
         }
 
         /// <summary>
-        /// Updates the specified folder.
+        /// Updates the specified entity.
         /// </summary>
         /// <param name="token">The OAuth token.</param>
         /// <param name="drawerID">The drawer identifier.</param>
-        /// <param name="folderID">The folder identifier.</param>
-        private static void UpdateFolder(string token, int drawerID, int folderID)
+        /// <param name="entityID">The entity identifier.</param>
+        private static void UpdateEntity(string token, int drawerID, int entityID)
         {
-            System.Console.WriteLine("=== Update Folder ===");
+            System.Console.WriteLine("=== Update Entity ===");
 
-            // Execute REST call (GET folder first)
-            var folderClient = new FolderClient(EnterpriseEndpointUri);
-            var response = folderClient.Get(token, drawerID, folderID);
+            // Execute REST call (GET entity first)
+            var entityClient = new EntityClient(EnterpriseEndpointUri);
+            var response = entityClient.Get(token, drawerID, entityID);
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
@@ -517,41 +517,37 @@ namespace EnterpriseClientSample.Console
                 return;
             }
 
-            dynamic folderResult = JsonConvert.DeserializeObject(response.Content);
+            dynamic entityResult = JsonConvert.DeserializeObject(response.Content);
 
             // Set first field to "Goodbye"
-            folderResult.Profiles[0].Strings[0].Value = "Goodbye";
+            entityResult.Profiles[0].Strings[0].Value = "Goodbye";
 
             // Execute REST call (UPDATE)
-            response = folderClient.Update(token, drawerID, folderID, JsonConvert.SerializeObject(folderResult));
+            response = entityClient.Update(token, drawerID, entityID, JsonConvert.SerializeObject(entityResult));
 
             // Display Result
             System.Console.WriteLine("Result: {0}", response.StatusCode);
 
-            if (response.StatusCode != HttpStatusCode.NoContent)
-            {
-                System.Console.WriteLine();
-                return;
-            }
+            System.Console.WriteLine();            
         }
 
         /// <summary>
-        /// Deletes the folder.
+        /// Deletes the entity.
         /// </summary>
         /// <param name="token">The OAuth token.</param>
         /// <param name="drawerID">The drawer identifier.</param>
-        /// <param name="folderID">The folder identifier.</param>
-        private static void DeleteFolder(string token, int drawerID, int folderID)
+        /// <param name="entityID">The entity identifier.</param>
+        private static void DeleteEntity(string token, int drawerID, int entityID)
         {
-            System.Console.WriteLine("=== Delete Folder ===");
-            var folderClient = new FolderClient(EnterpriseEndpointUri);
-            var response = folderClient.Delete(token, drawerID, folderID);
+            System.Console.WriteLine("=== Delete Entity ===");
+            var entityClient = new EntityClient(EnterpriseEndpointUri);
+            var response = entityClient.Delete(token, drawerID, entityID);
 
             System.Console.WriteLine("Result: {0}", response.StatusCode);
             System.Console.WriteLine();
         }
 
 
-        #endregion Folders
+        #endregion Entitys
     }
 }

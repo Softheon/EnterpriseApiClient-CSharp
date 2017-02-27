@@ -3,9 +3,9 @@
 namespace EnterpriseClientSample.Console
 {
     /// <summary>
-    /// Client class for invoking folder template API 
+    /// Client class for invoking entity template API 
     /// </summary>
-    internal class FolderTemplateClient
+    internal class EntityTemplateClient
     {
         /// <summary>
         /// The rest client
@@ -13,20 +13,20 @@ namespace EnterpriseClientSample.Console
         private RestClient _client;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FolderTemplateClient"/> class.
+        /// Initializes a new instance of the <see cref="EntityTemplateClient"/> class.
         /// </summary>
         /// <param name="baseUri">The base API URI.</param>
-        internal FolderTemplateClient(string baseUri)
+        internal EntityTemplateClient(string baseUri)
         {
             _client = new RestClient(baseUri);
         }
 
         /// <summary>
-        /// Gets the specified Folder Template by type.
+        /// Gets the specified Entity Template by type.
         /// </summary>
         /// <param name="token">The OAuth token.</param>
         /// <param name="type">The template type.</param>
-        /// <returns>Folder Template as a JSON object</returns>
+        /// <returns>Entity Template as a JSON object</returns>
         internal IRestResponse Get(string token, int type)
         {
             var request = new RestRequest("/template/v1/ftl/{type}", Method.GET);
@@ -40,11 +40,11 @@ namespace EnterpriseClientSample.Console
         }
 
         /// <summary>
-        /// Inserts the specified Folder Template.
+        /// Inserts the specified Entity Template.
         /// </summary>
         /// <param name="token">The OAuth token.</param>
         /// <param name="template">The template as json.</param>
-        /// <returns>New Folder Template as a JSON object</returns>
+        /// <returns>New Entity Template as a JSON object</returns>
         internal IRestResponse Insert(string token, string template)
         {
             var request = new RestRequest("/template/v1/ftl", Method.POST);
@@ -58,7 +58,7 @@ namespace EnterpriseClientSample.Console
         }
 
         /// <summary>
-        /// Deletes the specified Folder Template.
+        /// Deletes the specified Entity Template.
         /// </summary>
         /// <param name="token">The OAuth token.</param>
         /// <param name="template">The template as json.</param>

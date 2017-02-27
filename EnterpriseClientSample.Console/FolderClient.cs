@@ -3,9 +3,9 @@
 namespace EnterpriseClientSample.Console
 {
     /// <summary>
-    /// Client class for invoking folder API 
+    /// Client class for invoking entity API 
     /// </summary>
-    internal class FolderClient
+    internal class EntityClient
     {
         /// <summary>
         /// The rest client
@@ -13,26 +13,26 @@ namespace EnterpriseClientSample.Console
         private RestClient _client;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FolderClient"/> class.
+        /// Initializes a new instance of the <see cref="EntityClient"/> class.
         /// </summary>
         /// <param name="baseUri">The base URI.</param>
-        internal FolderClient(string baseUri)
+        internal EntityClient(string baseUri)
         {
             _client = new RestClient(baseUri);
         }
 
         /// <summary>
-        /// Gets the specified folder in the specified drawer.
+        /// Gets the specified entity in the specified drawer.
         /// </summary>
         /// <param name="token">The OAuth token.</param>
         /// <param name="drawerId">The drawer identifier.</param>
-        /// <param name="folderID">The folder identifier.</param>
-        /// <returns>Folder as a JSON object</returns>
-        internal IRestResponse Get(string token, int drawerID, int folderID)
+        /// <param name="entityID">The entity identifier.</param>
+        /// <returns>Entity as a JSON object</returns>
+        internal IRestResponse Get(string token, int drawerID, int entityID)
         {
-            var request = new RestRequest("/content/v1/folder/{drawer}/{id}", Method.GET);
+            var request = new RestRequest("/content/v1/entity/{drawer}/{id}", Method.GET);
             request.AddUrlSegment("drawer", drawerID.ToString());
-            request.AddUrlSegment("id", folderID.ToString());
+            request.AddUrlSegment("id", entityID.ToString());
 
             // Add token
             request.AddHeader("authorization", string.Format("Bearer {0}", token));
@@ -42,17 +42,17 @@ namespace EnterpriseClientSample.Console
         }
 
         /// <summary>
-        /// Inserts the specified folder.
+        /// Inserts the specified entity.
         /// </summary>
         /// <param name="token">The OAuth token.</param>
         /// <param name="drawerID">The drawer identifier.</param>
-        /// <param name="folder">The folder identifier.</param>
-        /// <returns>Newly created Folder object.</returns>
-        internal IRestResponse Insert(string token, int drawerID, string folder)
+        /// <param name="entity">The entity identifier.</param>
+        /// <returns>Newly created Entity object.</returns>
+        internal IRestResponse Insert(string token, int drawerID, string entity)
         {
-            var request = new RestRequest("/content/v1/folder/{drawer}", Method.POST);
+            var request = new RestRequest("/content/v1/entity/{drawer}", Method.POST);
             request.AddUrlSegment("drawer", drawerID.ToString());
-            request.AddParameter("application/json", folder, ParameterType.RequestBody);
+            request.AddParameter("application/json", entity, ParameterType.RequestBody);
 
             // Add token
             request.AddHeader("authorization", string.Format("Bearer {0}", token));
@@ -62,19 +62,19 @@ namespace EnterpriseClientSample.Console
         }
 
         /// <summary>
-        /// Updates the specified folder.
+        /// Updates the specified entity.
         /// </summary>
         /// <param name="token">The OAuth token.</param>
         /// <param name="drawerID">The drawer identifier.</param>
-        /// <param name="folderID">The folder identifier.</param>
-        /// <param name="folder">The folder.</param>
+        /// <param name="entityID">The entity identifier.</param>
+        /// <param name="entity">The entity.</param>
         /// <returns>Empty response.</returns>
-        internal IRestResponse Update(string token, int drawerID, int folderID, string folder)
+        internal IRestResponse Update(string token, int drawerID, int entityID, string entity)
         {
-            var request = new RestRequest("/content/v1/folder/{drawer}/{id}", Method.PUT);
+            var request = new RestRequest("/content/v1/entity/{drawer}/{id}", Method.PUT);
             request.AddUrlSegment("drawer", drawerID.ToString());
-            request.AddUrlSegment("id", folderID.ToString());
-            request.AddParameter("application/json", folder, ParameterType.RequestBody);
+            request.AddUrlSegment("id", entityID.ToString());
+            request.AddParameter("application/json", entity, ParameterType.RequestBody);
 
             // Add token
             request.AddHeader("authorization", string.Format("Bearer {0}", token));
@@ -84,17 +84,17 @@ namespace EnterpriseClientSample.Console
         }
 
         /// <summary>
-        /// Deletes the specified folder.
+        /// Deletes the specified entity.
         /// </summary>
         /// <param name="token">The OAuth token.</param>
         /// <param name="drawerID">The drawer identifier.</param>
-        /// <param name="folderID">The folder identifier.</param>
+        /// <param name="entityID">The entity identifier.</param>
         /// <returns>Empty resposne.</returns>
-        internal IRestResponse Delete(string token, int drawerID, int folderID)
+        internal IRestResponse Delete(string token, int drawerID, int entityID)
         {
-            var request = new RestRequest("/content/v1/folder/{drawer}/{id}", Method.DELETE);
+            var request = new RestRequest("/content/v1/entity/{drawer}/{id}", Method.DELETE);
             request.AddUrlSegment("drawer", drawerID.ToString());
-            request.AddUrlSegment("id", folderID.ToString());
+            request.AddUrlSegment("id", entityID.ToString());
 
             // Add token
             request.AddHeader("authorization", string.Format("Bearer {0}", token));
